@@ -170,7 +170,11 @@ def get_openai_api_key() -> str:
 
 
 def red_openai_client_kwargs() -> dict:
-    return {"api_key": get_openai_api_key() or None}
+    key = get_openai_api_key()
+    kwargs = {"api_key": key or None}
+    if key and key.startswith("gsk_"):
+        kwargs["base_url"] = "https://api.groq.com/openai/v1"
+    return kwargs
 
 
 def red_provider_label(tier: str = "advance") -> str:
